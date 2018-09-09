@@ -16,6 +16,7 @@
 package com.example.android.miwok;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,14 +32,16 @@ import java.util.ArrayList;
  */
 public class WordAdapter extends ArrayAdapter<Word>  {
 
+    private int mColorResourceId;
     /**
      * Create a new {@link WordAdapter} object.
-     *
      * @param context is the current context (i.e. Activity) that the adapter is being created in.
      * @param words is the list of {@link Word}s to be displayed.
+     * @param colorResourceId is the background color resource id
      */
-    public WordAdapter(Context context, ArrayList<Word> words) {
+    public WordAdapter(Context context, ArrayList<Word> words, int colorResourceId) {
         super(context, 0, words);
+        this.mColorResourceId = colorResourceId;
     }
 
     @Override
@@ -68,11 +71,30 @@ public class WordAdapter extends ArrayAdapter<Word>  {
         // Find the ImageView in the list_item layout
         ImageView imageView = (ImageView) listItemView.findViewById(R.id.myImage);
 
-        // set the image to the image resource in the current word
-        imageView.setImageResource(currentWord.getImageResourceId());
+        if (currentWord.hasImage()) {
+            // set the image to the image resource in the current word
+            imageView.setImageResource(currentWord.getImageResourceId());
+
+            // ensure reused views are visible
+            imageView.setVisibility(View.VISIBLE);
+        }
+        else {
+            // remove space from layout where image would be
+            imageView.setVisibility(View.GONE);
+        }
+
+        View textContainer = listItemView.findViewById(R.id.text_container);
+
+        // find the color the resourceId maps to
+        int color = ContextCompat.getColor(getContext(), mColorResourceId);
+        textContainer.setBackgroundColor(color);
 
         // Return the whole list item layout (containing 2 TextViews) so that it can be shown in
         // the ListView.
         return listItemView;
+    }
+
+    public int getBackgroundColorResourceId() {
+        return mColorResourceId;
     }
 }
