@@ -6,7 +6,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class NumbersFragment extends Fragment {
-    
+
     public NumbersFragment() {
         // Required empty public constructor
     }
@@ -63,8 +62,6 @@ public class NumbersFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word currentWord = words.get(position);
-
-                Log.v("NumbersActivity", "Current word: " + currentWord);
 
                 releaseMediaPlayer();
 
